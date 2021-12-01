@@ -13,10 +13,6 @@ namespace big
 	{
 		if (ImGui::BeginTabItem("Jugador"))
 		{
-			
-			
-
-
 			if (ImGui::Button("Godmode")) {
 				ENTITY::SET_ENTITY_INVINCIBLE(PLAYER::PLAYER_PED_ID(), true);
 			}
