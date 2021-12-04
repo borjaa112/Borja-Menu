@@ -6,7 +6,13 @@
 #include "natives.hpp"
 #include "gta_util.hpp"
 #include "ImGuiBitfield.h"
-
+void notification(const std::string& text)
+{
+	HUD::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
+	HUD::_THEFEED_SET_NEXT_POST_BACKGROUND_COLOR(184);
+	HUD::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(const_cast<char*>(text.c_str()));
+	HUD::END_TEXT_COMMAND_THEFEED_POST_TICKER(false, false);
+}
 namespace big
 {
 	void base_tab::render_base_tab()
@@ -15,6 +21,7 @@ namespace big
 		{
 			if (ImGui::Button("Godmode")) {
 				ENTITY::SET_ENTITY_INVINCIBLE(PLAYER::PLAYER_PED_ID(), true);
+				notification("[INFO] Ahora eres inmortal");
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Desactivar god mode")) {
@@ -38,11 +45,13 @@ namespace big
 			}
 
 			if (ImGui::Button("Policia real")) {
-				PLAYER::SET_PLAYER_WANTED_LEVEL(PLAYER::PLAYER_ID(), 4, false);
+				PLAYER::SET_PLAYER_WANTED_LEVEL(PLAYER::PLAYER_ID(), 5, false);
+				notification("[INFO] 5 Estrellas puestas, tarda alrededor de 15 segundos en tener efecto");
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Quitar policia")) {
 				PLAYER::SET_PLAYER_WANTED_LEVEL(PLAYER::PLAYER_ID(), 0, false);
+				notification("[INFO] Policia eliminada con exito");
 			}
 
 			ImGui::Separator();
@@ -56,6 +65,7 @@ namespace big
 		if (ImGui::BeginTabItem("Vehiculo")) {
 			if (ImGui::Button("Spawn T20"))
 			{
+				notification("[INFO] T20 Spawneado con exito");
 				QUEUE_JOB_BEGIN_CLAUSE()
 				{
 					constexpr auto hash = RAGE_JOAAT("T20");
@@ -90,6 +100,7 @@ namespace big
 				Vehicle veh = PED::GET_VEHICLE_PED_IS_USING(playerPed);
 				char* plateText = "BORJA";
 				VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(veh, plateText);
+				notification("Matricula cambiada");
 			}
 			ImGui::EndTabItem();
 		}
