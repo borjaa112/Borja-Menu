@@ -1,7 +1,6 @@
 #pragma once
 
 #include "natives.hpp"
-
 namespace rage
 {
 #pragma pack(push, 1)

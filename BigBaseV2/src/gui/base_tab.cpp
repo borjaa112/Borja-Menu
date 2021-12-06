@@ -56,6 +56,10 @@ namespace big
 				notification("[INFO] Policia eliminada con exito");
 			}
 
+			if (ImGui::Button("TP Aeropuerto")) {
+				ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), -978.708496, -3001.840820, 13.317889, 0, 0, 0, 0);
+			}
+
 			ImGui::Separator();
 
 			if (ImGui::Button("Unload"))
