@@ -129,6 +129,10 @@ namespace big
 				CLOCK::SET_CLOCK_TIME(12, 00, 00);
 			}
 
+			if(ImGui::Button("Tiempo soleado")) {
+				MISC::SET_WEATHER_TYPE_NOW_PERSIST("EXTRASUNNY");
+			}
+
 			ImGui::EndTabItem();
 		}
 	}
