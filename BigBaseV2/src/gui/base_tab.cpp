@@ -123,5 +123,13 @@ namespace big
 
 			ImGui::EndTabItem();
 		}
+		if (ImGui::BeginTabItem("Extra")) {
+
+			if (ImGui::Button("Hacer de dia")) {
+				CLOCK::SET_CLOCK_TIME(12, 00, 00);
+			}
+
+			ImGui::EndTabItem();
+		}
 	}
 }
