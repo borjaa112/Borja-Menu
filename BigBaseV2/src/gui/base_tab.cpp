@@ -45,8 +45,10 @@ namespace big
 			}
 
 			if (ImGui::Button("Policia real")) {
+				
 				PLAYER::SET_PLAYER_WANTED_LEVEL(PLAYER::PLAYER_ID(), 5, false);
-				notification("[INFO] 5 Estrellas puestas, tarda alrededor de 15 segundos en tener efecto");
+				PLAYER::SET_PLAYER_WANTED_LEVEL_NOW(PLAYER::PLAYER_ID(), false);
+				notification("[INFO] 5 Estrellas puestas.");
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Quitar policia")) {
