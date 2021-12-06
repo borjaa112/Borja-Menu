@@ -54,10 +54,6 @@ namespace big
 				notification("[INFO] Policia eliminada con exito");
 			}
 
-			if (ImGui::Button("Teleport to waypoint")) {
-
-			}
-
 			ImGui::Separator();
 
 			if (ImGui::Button("Unload"))
@@ -113,6 +109,9 @@ namespace big
 				VEHICLE::SET_VEHICLE_FIXED(veh);
 				notification("Vehiculo reparado");
 			}
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("Armas")) {
 
 			if (ImGui::Button("Municion infinita")) {
 				Ped playerPed = PLAYER::PLAYER_PED_ID();
@@ -121,6 +120,7 @@ namespace big
 				WEAPON::SET_PED_INFINITE_AMMO(playerPed, true, hash);
 				notification("Municion infinita dada en el arma seleccionada");
 			}
+
 			ImGui::EndTabItem();
 		}
 	}
