@@ -54,6 +54,10 @@ namespace big
 				notification("[INFO] Policia eliminada con exito");
 			}
 
+			if (ImGui::Button("Teleport to waypoint")) {
+
+			}
+
 			ImGui::Separator();
 
 			if (ImGui::Button("Unload"))
@@ -101,6 +105,21 @@ namespace big
 				char* plateText = "BORJA";
 				VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(veh, plateText);
 				notification("Matricula cambiada");
+			}
+
+			if (ImGui::Button("Reparar vehiculo")) {
+				Ped playerPed = PLAYER::PLAYER_PED_ID();
+				Vehicle veh = PED::GET_VEHICLE_PED_IS_USING(playerPed);
+				VEHICLE::SET_VEHICLE_FIXED(veh);
+				notification("Vehiculo reparado");
+			}
+
+			if (ImGui::Button("Municion infinita")) {
+				Ped playerPed = PLAYER::PLAYER_PED_ID();
+
+				auto hash = WEAPON::GET_SELECTED_PED_WEAPON(playerPed);
+				WEAPON::SET_PED_INFINITE_AMMO(playerPed, true, hash);
+				notification("Municion infinita dada en el arma seleccionada");
 			}
 			ImGui::EndTabItem();
 		}
