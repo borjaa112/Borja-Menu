@@ -111,6 +111,14 @@ namespace big
 				VEHICLE::SET_VEHICLE_FIXED(veh);
 				notification("Vehiculo reparado");
 			}
+
+			if (ImGui::Button("Explotar Vehiculo")) {
+				Ped playerPed = PLAYER::PLAYER_PED_ID();
+				Vehicle veh = PED::GET_VEHICLE_PED_IS_USING(playerPed);
+				VEHICLE::EXPLODE_VEHICLE(veh, true, false);
+			}
+
+
 			ImGui::EndTabItem();
 		}
 		if (ImGui::BeginTabItem("Armas")) {
