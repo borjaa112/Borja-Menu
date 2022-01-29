@@ -6,6 +6,7 @@
 #include "natives.hpp"
 #include "gta_util.hpp"
 #include "ImGuiBitfield.h"
+static std::vector<CNetGamePlayer> playerlist;
 void notification(const std::string& text)
 {
 	HUD::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
@@ -15,49 +16,78 @@ void notification(const std::string& text)
 }
 namespace big
 {
+	bool god_bool = false, invisible = false, policia_fake = false, policia_real = false;
 	void base_tab::render_base_tab()
 	{
 		if (ImGui::BeginTabItem("Jugador"))
 		{
-			if (ImGui::Button("Godmode")) {
-				ENTITY::SET_ENTITY_INVINCIBLE(PLAYER::PLAYER_PED_ID(), true);
-				notification("[INFO] Ahora eres inmortal");
+			if (ImGui::Checkbox("Godmode ", &god_bool)) {
+				if (god_bool) {
+					ENTITY::SET_ENTITY_INVINCIBLE(PLAYER::PLAYER_PED_ID(), true);
+					notification("[INFO] Ahora eres inmortal");
+				}
+				else {
+					ENTITY::SET_ENTITY_INVINCIBLE(PLAYER::PLAYER_PED_ID(), false);
+				}
+
 			}
+			/*if (ImGui::Checkbox("Bool", g_settings.options["test"].get<bool*>())) {
+				notification("Works");
+			}*/
 			ImGui::SameLine();
-			if (ImGui::Button("Desactivar god mode")) {
-				ENTITY::SET_ENTITY_INVINCIBLE(PLAYER::PLAYER_PED_ID(), false);
+			//if (ImGui::Button("Desactivar god mode")) {
+			//	ENTITY::SET_ENTITY_INVINCIBLE(PLAYER::PLAYER_PED_ID(), false);
+			//}
+			if (ImGui::Checkbox("Invisible", &invisible)) {
+				if (invisible) {
+					ENTITY::SET_ENTITY_VISIBLE(PLAYER::PLAYER_PED_ID(), false, 0);
+
+				}
+				else {
+					ENTITY::SET_ENTITY_VISIBLE(PLAYER::PLAYER_PED_ID(), true, 0);
+				}
 			}
-			ImGui::Separator();
-			if (ImGui::Button("Invisible")) {
-				ENTITY::SET_ENTITY_VISIBLE(PLAYER::PLAYER_PED_ID(), false, 0);
-			}
-			ImGui::SameLine();
-			if (ImGui::Button("Quitar Invisible")) {
-				ENTITY::SET_ENTITY_VISIBLE(PLAYER::PLAYER_PED_ID(), true, 0);
-			}
-			ImGui::Separator();
-			if (ImGui::Button("5 Estrellas fake")) {
-				MISC::SET_FAKE_WANTED_LEVEL(5);
-			}
-			ImGui::SameLine();
-			if (ImGui::Button("Quitar policia fake")) {
-				MISC::SET_FAKE_WANTED_LEVEL(0);
+			if (ImGui::Checkbox("5 Estrellas fake ", &policia_fake)) {
+				if (policia_fake) {
+					MISC::SET_FAKE_WANTED_LEVEL(5);
+				}
+				else {
+					MISC::SET_FAKE_WANTED_LEVEL(0);
+				}
 			}
 
 			if (ImGui::Button("Policia real")) {
-				
+
 				PLAYER::SET_PLAYER_WANTED_LEVEL(PLAYER::PLAYER_ID(), 5, false);
 				PLAYER::SET_PLAYER_WANTED_LEVEL_NOW(PLAYER::PLAYER_ID(), false);
 				notification("[INFO] 5 Estrellas puestas.");
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Quitar policia")) {
-				PLAYER::SET_PLAYER_WANTED_LEVEL(PLAYER::PLAYER_ID(), 0, false);
+				gta_util::get_local_playerinfo()->m_wanted_level = 0;
 				notification("[INFO] Policia eliminada con exito");
 			}
 
-			if (ImGui::Button("TP Aeropuerto")) {
-				ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), -978.708496, -3001.840820, 13.317889, 0, 0, 0, 0);
+
+			//ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), -978.708496, -3001.840820, 13.317889, 0, 0, 0, 0);
+			const char* items[] = { "Aeropuerto", "Los santos custom", "Eclipse Towers", "AmmoNation", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK", "LLLLLLL", "MMMM", "OOOOOOO" };
+			static int item_current = 0;
+			ImGui::Combo("combo", &item_current, items, IM_ARRAYSIZE(items));
+
+			if (ImGui::Button("Teleport")) {
+				switch (item_current) {
+				case 0:
+					ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), -978.708496, -3001.840820, 13.317889, 0, 0, 0, 0);
+					break;
+				case 1:
+					ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), -1135.70727, -1987.154175, 12.976217, 0, 0, 0, 0);
+					break;
+
+				case 3:
+					ENTITY::SET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), -318.859039, 6074.433105, 30.614943, 0, 0, 0, 0);
+				}
+
+
 			}
 
 			ImGui::Separator();
@@ -143,8 +173,32 @@ namespace big
 				CLOCK::SET_CLOCK_TIME(12, 00, 00);
 			}
 
-			if(ImGui::Button("Tiempo soleado")) {
+			if (ImGui::Button("Tiempo soleado")) {
 				MISC::SET_WEATHER_TYPE_NOW_PERSIST("EXTRASUNNY");
+			}
+
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("Jugadores")) {
+			if (ImGui::Button("hhahah")) {
+				notification("jaj");
+			}
+			if (NETWORK::NETWORK_GET_NUM_CONNECTED_PLAYERS() != playerlist.size())
+			{
+				playerlist.clear();
+				for (Player i = 0; i < gta::num_players; i++)
+				{
+					if (CNetGamePlayer* net_player = g_pointers->m_get_net_player(i))
+					{
+						auto cstr_name = net_player->get_name();
+						std::string name = cstr_name;
+						transform(name.begin(), name.end(), name.begin(), ::tolower);
+						if (net_player->is_valid()) {
+							
+						}
+
+					}
+				}
 			}
 
 			ImGui::EndTabItem();

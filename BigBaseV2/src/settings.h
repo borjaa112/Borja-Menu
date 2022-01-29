@@ -17,6 +17,7 @@ namespace big
 			"demo int": 1,
 			"demo double": 1.0,
 			"demo combo": 0,
+			"godmode": false,
 			"demo bitset": 62678480396171113
 		})"_json;
 

@@ -1,5 +1,6 @@
+# BigBase V2 fixed for GTA 5 Version 1.58
 
-Modmenu de GTA V basado en la base https://github.com/ALEHACKsp/bigbasev2-fix
+Credits to Pocakking for originaly developing bigbasev2 , this is just updated to 1.58
+Uses Imgui for drawing.
 
-A mod menu base for Grand Theft Auto V.
-Strictly for educational purposes.
+If there are any compiling issues , replace the vendor folder with a new one from https://github.com/Pocakking/BigBaseV2 (original)

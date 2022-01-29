@@ -23,7 +23,7 @@ namespace big
 		rage::scrNativeRegistrationTable *m_native_registration_table{};
 		functions::get_native_handler_t m_get_native_handler{};
 		functions::fix_vectors_t m_fix_vectors{};
-
+		functions::net_player* m_get_net_player{};
 		rage::atArray<GtaThread*> *m_script_threads{};
 		rage::scrProgramTable *m_script_program_table{};
 		functions::run_script_threads_t m_run_script_threads{};
